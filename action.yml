@@ -1,8 +1,6 @@
 name: Release Explainer
 description: >-
-  Narrated explainer of every release, made by the model you already pay for
-  and posted where the release is read. Bring your own key. Also explains
-  pull requests.
+  Narrated explainer of every release. Also explains pull requests.
 author: Bisque
 branding:
   icon: play-circle
