@@ -365,6 +365,58 @@ export function lintPresentation(html) {
       );
     }
 
+    // A stepped element stays hidden until a <<reveal>> names its cue target,
+    // so one the narration never names is hidden for the whole slide. Nothing
+    // catches this by eye: a screenshot shows every step at once, and the
+    // common shape is a list whose first row is named and whose remaining rows
+    // silently never arrive. A slide with no notes is stepped by keyboard on
+    // purpose, so it is exempt.
+    const rawNotes = rawNotesOf(section) ?? "";
+    // `<<advance>>` reveals step groups in order without naming any of them,
+    // so a slide driven that way carries bare data-step on purpose and none
+    // of the checks below apply to it.
+    const usesAdvance = /<<\s*advance\s*>>/.test(rawNotes);
+    if (rawNotes.trim() !== "" && !usesAdvance) {
+      const named = new Set(
+        [...rawNotes.matchAll(/<<\s*reveal\s+target=([\w-]+)\s*>>/g)].map(
+          (m) => m[1],
+        ),
+      );
+      const targets = new Set();
+      const unreached = new Set();
+      let missingTarget = 0;
+      for (const tag of section.match(/<[a-z][^>]*>/gi) ?? []) {
+        const step = /\sdata-step=["']?(\d+)/.exec(tag)?.[1];
+        const target = /\sdata-cue-target=["']([\w-]+)["']/.exec(tag)?.[1];
+        if (target !== undefined) targets.add(target);
+        if (step === undefined || Number(step) === 0) continue;
+        if (target === undefined) missingTarget++;
+        else if (!named.has(target)) unreached.add(target);
+      }
+      for (const target of unreached) {
+        problems.push(
+          `${where}: nothing reveals \`${target}\` — it carries data-step but no ` +
+            `\`<<reveal target=${target}>>\` in the narration, so it stays hidden for ` +
+            "the whole slide. Give it its own marker, or share the cue id of the " +
+            "element it appears with.",
+        );
+      }
+      for (const target of named) {
+        if (targets.has(target)) continue;
+        problems.push(
+          `${where}: \`<<reveal target=${target}>>\` names an element this slide ` +
+            "does not have, so the cue fires and reveals nothing.",
+        );
+      }
+      if (missingTarget > 0) {
+        problems.push(
+          `${where}: ${missingTarget} element(s) carry data-step with no ` +
+            "data-cue-target. Give every stepped element both, so keyboard " +
+            "stepping and the narration stay in sync.",
+        );
+      }
+    }
+
     const text = narrationOf(section);
     const shown = stripPronunciation(text);
     const at = shown.indexOf("](");
