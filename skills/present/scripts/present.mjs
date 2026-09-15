@@ -311,6 +311,65 @@ function stripPronunciation(text) {
   return out + text.slice(at);
 }
 
+/** A marker body that is a link target rather than a spoken form. Markdown on
+ *  a slide (`[the spec](https://…)`, `[notes](./notes.md)`) parses by the same
+ *  grammar, and calling it a pronunciation marker would be a false alarm. */
+const LINK_BODY = /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/|\.{1,2}\/|#)/i;
+
+/**
+ * The first pronunciation marker in a slide's visible copy, or null.
+ *
+ * Only the narration is spoken, so a marker written into the slide body
+ * changes no sound and shows its own brackets to the viewer — one published
+ * presentation carried "The [iOS](eye oh ess) app now keeps several accounts
+ * signed in at once." on screen. Mirrors `validateSlideCopyMarkers` in
+ * packages/presentation-format, which the server rejects a publish on.
+ *
+ * `<code>` and `<pre>` are exempt: a slide about this format shows these
+ * characters on purpose.
+ */
+function markerInSlideCopy(section) {
+  const notes = rawNotesOf(section);
+  const withoutNotes = notes === null ? section : section.replace(notes, " ");
+  const text = collapseWhitespace(
+    decodeEntities(
+      stripTags(
+        withoutNotes.replace(/<(code|pre)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, " "),
+      ),
+    ),
+  );
+  let i = 0;
+  while (i < text.length) {
+    const open = text.indexOf("[", i);
+    if (open === -1) break;
+    const close = text.indexOf("]", open + 1);
+    if (close === -1) break;
+    if (text[close + 1] !== "(") {
+      i = open + 1;
+      continue;
+    }
+    const end = text.indexOf(")", close + 2);
+    if (end === -1) break;
+    const whole = text.slice(open, end + 1);
+    const display = text.slice(open + 1, close);
+    const body = text.slice(close + 2, end);
+    const isIpa =
+      body.startsWith("/") && body.endsWith("/") && body.length >= 2;
+    const inner = isIpa ? body.slice(1, -1) : body;
+    if (
+      display.trim() === "" ||
+      inner.trim() === "" ||
+      display.includes("[") ||
+      (!isIpa && LINK_BODY.test(body.trim()))
+    ) {
+      i = open + 1;
+      continue;
+    }
+    return whole;
+  }
+  return null;
+}
+
 /**
  * A cue marker whose `<<` or `>>` is HTML-escaped, anywhere in a slide's
  * notes.
@@ -343,11 +402,12 @@ function escapedCueMarkers(rawNotes) {
 /**
  * Everything an author can see before spending a minute of synthesis: a
  * pronunciation marker that did not parse (its leftover `](` is spoken and
- * captioned), a `data-*-spec` whose JSON does not parse (the player renders it
- * as empty space), and an HTML-escaped cue marker (spoken aloud, and its
- * reveal never fires). The first two mirror `validatePronunciationMarkers` /
- * `validateSpecJson` in packages/presentation-format, which the server rejects
- * a publish on; the escaped marker is caught here only, because the server
+ * captioned), a pronunciation marker in slide copy (shown to the viewer and
+ * never spoken), a `data-*-spec` whose JSON does not parse (the player renders
+ * it as empty space), and an HTML-escaped cue marker (spoken aloud, and its
+ * reveal never fires). The first three mirror `validatePronunciationMarkers` /
+ * `validateSlideCopyMarkers` / `validateSpecJson` in
+ * packages/presentation-format, which the server rejects a publish on; the escaped marker is caught here only, because the server
  * accepts it as prose. `plan` prints these and `publish` refuses to start on
  * them.
  */
@@ -415,6 +475,15 @@ export function lintPresentation(html) {
             "stepping and the narration stay in sync.",
         );
       }
+    }
+
+    const inCopy = markerInSlideCopy(section);
+    if (inCopy !== null) {
+      problems.push(
+        `${where}: pronunciation marker in slide copy — \`${inCopy}\`. ` +
+          "It is shown to the viewer and never spoken. On a slide, write the " +
+          'word; the marker belongs in that slide\'s <aside class="notes">.',
+      );
     }
 
     const text = narrationOf(section);

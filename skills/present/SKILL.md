@@ -155,6 +155,18 @@ rather than respelling the word — `[live](/lˈaɪv/)` for IPA, `[live](liv)` f
 respelling. The bracket text is what the transcript, captions and search show;
 the parenthesis is only ever spoken.
 
+Write the substitute the way a person says the word, with the pauses they make:
+a space is a boundary the voice pauses at, and a hyphen glues its pieces into
+one word. `[README.md](read-me dot em-dee)` is said "readme · dot · emdee";
+`[iOS](eye-oh-ess)` is one word, where `[iOS](eye oh ess)` is three. Check that
+a person says the written form at all — the marker fixes a word someone says and
+the voice gets wrong, not a token nobody reads aloud; if you are spelling out
+something a person would rename, rewrite the sentence.
+
+The marker goes in the narration and nowhere else. Only `<aside class="notes">`
+is spoken, so a marker on a slide changes no sound and shows its own brackets to
+the viewer.
+
 `node present.mjs plan --html index.html` shows exactly what will be spoken, per
 slide. Read it before synthesizing.
 

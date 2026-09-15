@@ -70,8 +70,13 @@ for the viewer.
 
 When a name would be read wrong out loud, mark the sound rather than misspelling
 the word: `[live](/lˈaɪv/)` for IPA, `[live](liv)` for a plain respelling. The
-bracket text is what the transcript, the captions and the slide show; only the
-parenthesis is spoken.
+bracket text is what the transcript and the captions show; only the parenthesis
+is spoken. Write the marker in the narration and nowhere else — a marker in
+slide copy is never spoken and shows its own brackets on screen. Write the
+substitute the way a person says the word: a space is a pause, a hyphen glues
+the pieces into one word. `[README.md](read-me dot em-dee)` is said "readme ·
+dot · emdee", and `[iOS](eye-oh-ess)` is one word where `[iOS](eye oh ess)` is
+three.
 
 ## 4. Publish
 
