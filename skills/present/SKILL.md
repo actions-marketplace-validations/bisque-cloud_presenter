@@ -1,6 +1,6 @@
 ---
 name: present
-description: Authors a narrated presentation and publishes it to a shareable watch URL. Use when asked to make a presentation, slides, a video, a deck, a slideshow, a narrated briefing, or a talk — or when stacked after another skill's report, as in /retro /present.
+description: Quickly turns a design doc, a pull request, a website, or anything the agent has in its context into a watchable presentation at a shareable URL. Use when asked to make a presentation, slides, a video, a deck, a slideshow, a narrated briefing, or a talk — or when stacked after another skill's report, as in /retro /present.
 ---
 
 # Present

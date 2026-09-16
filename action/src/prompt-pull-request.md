@@ -1,11 +1,11 @@
-# Explain this pull request as a narrated presentation
+# Explain this pull request as a presentation people can watch
 
 You are running unattended inside a CI job. Nobody will answer a question.
 Work from the files in this directory and write your output into `out/`.
 
 ## The job
 
-Make one narrated presentation that explains the pull request in `source/`
+Make one presentation that explains the pull request in `source/`
 to an engineer who works on `{{REPO}}` but was not in the review. They want
 to know, in a few minutes: what problem the change solves, what it does, what
 it touches, and the evidence it works. They already know the codebase; they

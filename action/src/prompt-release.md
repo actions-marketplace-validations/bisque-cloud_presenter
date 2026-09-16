@@ -1,11 +1,11 @@
-# Explain this release as a narrated presentation
+# Explain this release as a presentation people can watch
 
 You are running unattended inside a CI job. Nobody will answer a question.
 Work from the files in this directory and write your output into `out/`.
 
 ## The job
 
-Make one narrated presentation that explains the release in `source/` to the
+Make one presentation that explains the release in `source/` to the
 people deciding whether to upgrade `{{REPO}}`. In a few minutes they want to
 know: what changed, why it matters to them, what could break, and what they
 have to do.

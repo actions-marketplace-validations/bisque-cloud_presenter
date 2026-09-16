@@ -4,9 +4,9 @@ Instructions for AI coding agents working in this repository.
 
 ## What this repo is
 
-Three skills a coding agent installs to use Bisque: `present` (author and
-publish a narrated presentation), `watch` (read a published one as text),
-and `video` (render one to MP4). Each lives in `skills/<name>/` as a
+Three skills a coding agent installs to use Bisque: `present` (make a
+presentation people can watch and publish it), `watch` (read a published one
+as text), and `video` (render one to MP4). Each lives in `skills/<name>/` as a
 `SKILL.md` plus scripts. Install with
 `npx skills add bisque-cloud/presenter`.
 

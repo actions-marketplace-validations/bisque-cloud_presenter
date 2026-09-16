@@ -1,9 +1,9 @@
 # presenter
 
-Bisque's open-source **Agent Skills** for building narrated presentations you
-publish to a shareable watch URL on [bisque.today](https://bisque.today).
-Narration is synthesized on your own machine — **free and unlimited**; nothing
-is billed per word.
+Bisque's open-source **Agent Skills**. Quickly turn a design doc, a pull
+request, a website, or anything your agent has in its context into a watchable
+presentation you can share on [bisque.today](https://bisque.today). **Free and
+unlimited** — nothing is billed per word.
 
 The collection ships three skills. **`present`** is the main one: you describe a
 presentation, your agent authors it, your machine narrates it, and Bisque hosts
