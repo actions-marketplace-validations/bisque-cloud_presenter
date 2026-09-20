@@ -2047,8 +2047,20 @@ async function cmdPublish(flags) {
     }
 
     const needed = creation.needsAudio ?? [];
+    if (creation.replacedUnfinishedCreation) {
+      const when = creation.replacedUnfinishedCreation.openedAt;
+      say(
+        `note: an earlier publish of this presentation never finished` +
+          `${when ? ` (started ${when})` : ""}; this one replaces it.`,
+      );
+    }
     if (creation.reused?.length) {
       say(`carried forward: ${creation.reused.length} slide(s) of narration`);
+    }
+    if (creation.carriedAssets?.length) {
+      say(
+        `carried forward: ${creation.carriedAssets.length} asset(s) already in the bucket`,
+      );
     }
     say(
       needed.length > 0
