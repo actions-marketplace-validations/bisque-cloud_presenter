@@ -1,6 +1,6 @@
 ---
 name: present
-description: Authors a narrated presentation and publishes it to a shareable watch URL. Use when asked to make a presentation, slides, a video, a deck, a slideshow, a narrated briefing, or a talk — or when stacked after another skill's report, as in /retro /present.
+description: Quickly turns a design doc, a pull request, a website, or anything the agent has in its context into a watchable presentation at a shareable URL. Use when asked to make a presentation, slides, a video, a deck, a slideshow, a narrated briefing, or a talk — or when stacked after another skill's report, as in /retro /present.
 ---
 
 # Present
@@ -144,16 +144,9 @@ its `<aside class="notes">`; a slide without one is silent. Optionally write:
   ships **at the presentation's visibility**, so nothing more private than the
   presentation goes in it.
 - `design.md` — theme tokens in frontmatter.
-- `assets/` — every font, image, and other file the slides reference, exactly
-  as the spec requires: self-hosted, referenced relative (`assets/hero.png`).
-  `publish` walks this directory and uploads it with the presentation, so a
-  page that renders locally renders the same once published. Never link a font
-  or image from another origin; it will not be there for the viewer.
-
-When a voice would say a word wrong, fix the sound with a pronunciation marker
-rather than respelling the word — `[live](/lˈaɪv/)` for IPA, `[live](liv)` for a
-respelling. The bracket text is what the transcript, captions and search show;
-the parenthesis is only ever spoken.
+- `assets/` — every font, image, and other file the slides reference, as the
+  spec requires. `publish` walks this directory and uploads it with the
+  presentation, so a page that renders locally renders the same once published.
 
 `node present.mjs plan --html index.html` shows exactly what will be spoken, per
 slide. Read it before synthesizing.

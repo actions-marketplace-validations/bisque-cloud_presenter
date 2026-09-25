@@ -1,7 +1,7 @@
 # @bisquecloud/sdk
 
 The official TypeScript SDK for the [Bisque API](https://bisque.today/docs/api).
-Publish narrated presentations from a program and read any shared one back
+Publish a watchable presentation from a program and read any shared one back
 as text. Zero dependencies; runs anywhere `fetch` does (Node 18+, Bun, Deno,
 browsers).
 

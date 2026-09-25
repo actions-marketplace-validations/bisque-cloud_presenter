@@ -3,7 +3,7 @@ description: Make a presentation people can watch, and get a link to send
 argument-hint: [what it should be about]
 ---
 
-Make a narrated presentation about: $ARGUMENTS
+Make a presentation about: $ARGUMENTS
 
 Follow the `present` skill in this plugin from the top: fetch the format spec
 with `get_presentation_spec` first, read the source material, write `index.html`
